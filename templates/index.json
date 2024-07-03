@@ -1,0 +1,126 @@
+{
+  "sections": {
+    "image-with-text": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "BROWSE OUR LATEST PRODUCTS",
+            "heading_size": "h1"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "button_label": "SHOP",
+            "button_link": "shopify:\/\/collections\/all",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "button"
+      ],
+      "settings": {
+        "image": "shopify:\/\/shop_images\/snow-boarder-on-snowy-mountain.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "content_layout": "overlap",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-1",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 40,
+        "padding_bottom": 0
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "all",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "full_width": false,
+        "show_view_all": false,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "color_scheme": "scheme-1",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_quick_add": false,
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 0,
+        "padding_bottom": 40
+      }
+    },
+    "image_with_text_VHeymJ": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_pmgkpk": {
+          "type": "heading",
+          "settings": {
+            "heading": "My favorite board",
+            "heading_size": "h2"
+          }
+        },
+        "text_k6kdEf": {
+          "type": "text",
+          "settings": {
+            "text": "<p>\"I can't say enough good things about this snowboard! From the moment I strapped in, I felt like I was floating on clouds. It provided the perfect balance of stability and agility. This board has exceeded all my expectations, and I can't wait to hit the slopes again!\" - Jeff from Albany<\/p>",
+            "text_style": "subtitle"
+          }
+        },
+        "button_bJAD3P": {
+          "type": "button",
+          "settings": {
+            "button_label": "Check it out!",
+            "button_link": "shopify:\/\/products\/the-complete-snowboard",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_pmgkpk",
+        "text_k6kdEf",
+        "button_bJAD3P"
+      ],
+      "custom_css": [
+        "background {color: red;}"
+      ],
+      "settings": {
+        "image": "shopify:\/\/shop_images\/Main_b13ad453-477c-4ed1-9b43-81f3345adfd6.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "bottom",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "scheme-1",
+        "color_scheme": "scheme-2",
+        "image_behavior": "zoom-in",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "image-with-text",
+    "featured_collection",
+    "image_with_text_VHeymJ"
+  ]
+}
