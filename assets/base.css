@@ -2453,7 +2453,6 @@ product-info .loading__spinner:not(.hidden) ~ *,
 .header__heading-link {
   grid-area: heading;
   justify-self: center;
-  background-color: aqua;
 }
 
 .header__heading-link {
