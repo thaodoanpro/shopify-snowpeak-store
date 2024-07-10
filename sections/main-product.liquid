@@ -484,13 +484,20 @@
                  {%- endif  -%} 
                 {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
               {%- when 'buy_buttons' -%}
-                {%- render 'buy-buttons',
-                  block: block,
-                  product: product,
-                  product_form_id: product_form_id,
-                  section_id: section.id,
-                  show_pickup_availability: true
-                -%}
+                 {% if product.tags contains 'do_not_sell_to_UK' and localization.country.iso_code == 'GB' %}
+                  {% comment %}
+                    Replace the Add to Cart button with a link to an external website for products
+                  {% endcomment %}
+                  <a href="https://www.shopify.com/" target="_blank" class = "button button--secondary" >Go to retailer website</a>         
+                 {% else %}
+                    {%- render 'buy-buttons',
+                      block: block,
+                      product: product,
+                      product_form_id: product_form_id,
+                      section_id: section.id,
+                      show_pickup_availability: true
+                    -%}
+                 {% endif %}
               {%- when 'rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
                   <div class="rating-wrapper">
