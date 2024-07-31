@@ -980,30 +980,38 @@ class VariantSelects extends HTMLElement {
     }
   }
 
+  //T: Return an array of user selected option values. For example: ['Small','Red']
   updateOptions() {
-    this.options = Array.from(this.querySelectorAll('select, fieldset'), (element) => {
-      if (element.tagName === 'SELECT') {
-        return element.value;
+    this.options = Array.from(
+      this.querySelectorAll('select, fieldset'),
+      (element) => {
+        if (element.tagName === 'SELECT') {
+          return element.value;
+        }
+        if (element.tagName === 'FIELDSET') {
+          return Array.from(element.querySelectorAll('input'))
+            .find((radio) => radio.checked)
+            ?.value;
+        }
       }
-      if (element.tagName === 'FIELDSET') {
-        return Array.from(element.querySelectorAll('input')).find((radio) => radio.checked)?.value;
-      }
-    });
+    );
   }
 
+  //T: Update this.currentVariant to be the variant whose option values match with user's selection this.options
   updateMasterId() {
-    this.currentVariant = this.getVariantData().find((variant) => {
+    this.currentVariant = this.getVariantData().find(
+      (variant) => {
       return !variant.options
         .map((option, index) => {
           return this.options[index] === option;
         })
         .includes(false);
-    });
+      }
+    );
   }
-
+  //Update the visual display of the selected watch. Only applicable to swatch picker.
   updateSelectedSwatchValue({ target }) {
     const { name, value, tagName } = target;
-
     if (tagName === 'SELECT' && target.selectedOptions.length) {
       const swatchValue = target.selectedOptions[0].dataset.optionSwatchValue;
       const selectedDropdownSwatchValue = this.querySelector(`[data-selected-dropdown-swatch="${name}"] > .swatch`);
@@ -1059,17 +1067,23 @@ class VariantSelects extends HTMLElement {
   }
 
   updateVariantStatuses() {
+    //T Get an array of variant objects whose option1 was selected by users. Why option1 and how is checked attribute set  ???
     const selectedOptionOneVariants = this.variantData.filter(
       (variant) => this.querySelector(':checked').value === variant.option1
     );
+
+    /*T Create an array of input groups in the product form.
+    Use the spread operator here since not all browsers support forEach on NodeLists (returned by querySelectorAll) */
     const inputWrappers = [...this.querySelectorAll('.product-form__input')];
     inputWrappers.forEach((option, index) => {
-      if (index === 0) return;
+      if (index === 0) return; //T: Do nothing for first option. Start with the second option.
       const optionInputs = [...option.querySelectorAll('input[type="radio"], option')];
       const previousOptionSelected = inputWrappers[index - 1].querySelector(':checked').value;
+      //T Select only available variants whose option[index] is matching with user' previous selected option. Use 'option${index}' because options start at index 1.
+      //T Then, return the current option values of the selected variants.
       const availableOptionInputsValue = selectedOptionOneVariants
-        .filter((variant) => variant.available && variant[`option${index}`] === previousOptionSelected)
-        .map((variantOption) => variantOption[`option${index + 1}`]);
+        .filter((variant) => variant.available && variant[`option${index}`] === previousOptionSelected).map((variantOption) => variantOption[`option${index + 1}`]);
+      //T Disable the option displays if needed based on the current user selection
       this.setInputAvailability(optionInputs, availableOptionInputsValue);
     });
   }
@@ -1080,6 +1094,7 @@ class VariantSelects extends HTMLElement {
       const availableElement = availableValuesList.includes(value);
 
       if (element.tagName === 'INPUT') {
+        //T Include 'disabled' only if the element is not available
         element.classList.toggle('disabled', !availableElement);
       } else if (element.tagName === 'OPTION') {
         element.innerText = availableElement
@@ -1232,6 +1247,7 @@ class VariantSelects extends HTMLElement {
   }
 
   getVariantData() {
+    //Return an array of variant objects for this product. Only parse the Json the first time when variantData is not set.
     this.variantData = this.variantData || JSON.parse(this.querySelector('[type="application/json"]').textContent);
     return this.variantData;
   }

@@ -453,6 +453,10 @@
                     </volume-pricing>
                   {%- endif -%}
                 </div>
+              {% comment %}
+                Display Frequent Bought Together Products
+              {% endcomment %}
+              {% render 'frequently-bought-together' product: product, product_form_id: product_form_id %}
               {%- when 'popup' -%}
                 <modal-opener
                   class="product-popup-modal__opener no-js-hidden quick-add-hidden"
