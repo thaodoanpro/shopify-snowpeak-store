@@ -35,7 +35,7 @@ class CartNotification extends HTMLElement {
   }
 
   renderContents(parsedState) {
-    this.cartItemKey = parsedState.items ? parsedState.items[0].key : parsedState.key;
+    this.cartItemKey = parsedState.items ? parsedState.items[0].key : parsedState.key; //key: a unique hash of a product item in the add to cart response
     this.getSectionsToRender().forEach((section) => {
       document.getElementById(section.id).innerHTML = this.getSectionInnerHTML(
         parsedState.sections[section.id],

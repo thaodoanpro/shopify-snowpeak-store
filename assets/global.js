@@ -1294,3 +1294,51 @@ class ProductRecommendations extends HTMLElement {
 }
 
 customElements.define('product-recommendations', ProductRecommendations);
+
+//Frequently Bought Together Modal
+
+window.addEventListener("load", (event) => {
+  async function openModal(html, shouldShow) {
+    if (shouldShow) {
+      const replacingHTML = await document.querySelector("#modal-section");
+      replacingHTML.outerHTML = html;
+    }
+    document.querySelector("#modal-section").style.display = 'block';
+
+    //   modal.style.display = "block";
+    document.getElementById("custom-modal").style.position = "fixed";
+  }
+
+  document.addEventListener("click", async function (event) {
+    if (event.target.matches(".modal-selector-quick-view")) {
+      const targetData = event.target.dataset.target;
+      let response = await fetch(
+        `/products/${targetData}?section_id=<add your section ID here>`
+      );
+      let productMarkup = await response.text();
+      openModal(productMarkup, true);
+    } else if (event.target.matches('#addToCartButton')) {
+      const id = document.querySelector('#get_product_id').value
+      let formData = {
+        'items': [{
+          'id': id,
+          'quantity': 1
+        }]
+      };
+      fetch(window.Shopify.routes.root + 'cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+        .then(response => {
+          window.location.href = '/cart'
+          return response.json();
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
+  });
+});

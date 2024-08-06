@@ -1,0 +1,154 @@
+<style>
+  /* Modal Styles */
+  #custom-modal {
+    /* position: fixed; */
+    z-index: 99;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  /* Modal Content Styles */
+  .custom-modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    min-width: 450px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    border-radius: 4px;
+  }
+
+  /* flex stuff */
+  .modal-left {
+    color: black;
+    flex: 1;
+  }
+
+  .modal-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .sneaky-submit {
+    height: 40px;
+    width: 110px;
+  }
+
+  .modal-rt {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  #ModalContinueButton {
+    background-color: rgba(var(--color-button), var(--alpha-button-background));
+    appearance: none;
+    border: 0;
+    justify-content: center;
+    align-items: center;
+    padding: 0 3rem;
+    font: inherit;
+    text-decoration: none;
+    color: rgb(var(--color-button-text));
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .frequently-bought-together-item{
+    display: flex;
+    flex-direction: row;
+    color: black;
+  }
+  
+  #ModalContinueButton{
+    width: 30%;
+    height: 40px;
+    float: right;
+    font-weight: bold;
+  }
+
+  .modal-left > h2{
+    color: black
+  }
+
+  .custom-modal-heading > h3{
+    color: black 
+  }
+</style>
+
+<div
+  class="section-id"
+  id="modal-section"
+  data-section="{{ section.id }}"
+  style="display: none;">
+  <div id="custom-modal" class="custom-modal">
+    <!-- Modal Content -->
+    <div class="custom-modal-content" id="frequently-bought-together">
+        <div class="custom-modal-heading">
+          <h3>Optional Add-Ons</h3> 
+        </div>
+        {% for product in product.metafields.custom.frequent_bought_together.value %}
+          <div class="frequently-bought-together-item">
+            <div class="modal-left">
+              <!-- Product Title -->
+              <h2>{{ product.title }}</h2>
+              <!-- Product Images -->
+              {{ product.featured_image | image_url: width: 200 | image_tag }}
+            </div>
+            <div class="modal-right">
+              <div class="modal-rt">
+                <p>{{ product.description }}</p>
+                <p>{{ product.price | money }}</p>
+              </div>
+              <div class="modal-rb">
+                <input type="hidden" id="addOnId-{{product.id}}" value="{{product.selected_or_first_available_variant.id}}">
+                <input min="0" type="number" id="addOnQuantity-{{product.id}}" value="1"/>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        <div>
+          <button id="ModalContinueButton">Continue</button>
+        <div>
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Frequently Together",
+    "limit": 1,
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "title",
+        "label": "Text"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Frequently Together",
+        "settings": {
+          "title": "Product Frequently Bought Together"
+        }
+      }
+    ],
+    "enabled_on": {
+      "templates": ["*"]
+    }
+  }
+{% endschema %}
