@@ -40,11 +40,6 @@
     flex-direction: column;
   }
 
-  .sneaky-submit {
-    height: 40px;
-    width: 110px;
-  }
-
   .modal-rt {
     display: flex;
     flex: 1;
@@ -65,6 +60,20 @@
     color: rgb(var(--color-button-text));
     border-radius: 4px;
     cursor: pointer;
+    width: 30%;
+    height: 40px;
+    float: right;
+    font-weight: bold;
+  }
+
+  #ModalCancelButton{
+    appearance: none;
+    width: 30%;
+    height: 40px;
+    float: left;
+    font-weight: bold;
+    border-width: 0.5;
+    border-color: rgba(var(--color-button));
   }
 
   .frequently-bought-together-item{
@@ -73,13 +82,7 @@
     color: black;
   }
   
-  #ModalContinueButton{
-    width: 30%;
-    height: 40px;
-    float: right;
-    font-weight: bold;
-  }
-
+  
   .modal-left > h2{
     color: black
   }
@@ -120,6 +123,9 @@
             </div>
           </div>
         {% endfor %}
+        <div>
+          <button id="ModalCancelButton">No, thanks!</button>
+        <div>
         <div>
           <button id="ModalContinueButton">Continue</button>
         <div>

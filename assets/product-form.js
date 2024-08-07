@@ -9,19 +9,32 @@ if (!customElements.get('product-form')) {
         this.form.querySelector('[name=id]').disabled = false;
         this.form.addEventListener('submit', this.onSubmitHandler.bind(this));
         this.productHandle = "";
+        this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
+        this.submitButton = this.querySelector('[type="submit"]');
+        this.submitRequestBody = { items: [] };
+
         document.addEventListener('click', (event) => {
           if (event.target.matches("#ModalContinueButton")) {
-            this.handleSubmitToCart();
+            // Include the add-on products
+            const frequentlyBoughtTogether = [...document.querySelectorAll('.frequently-bought-together-item')];
+            frequentlyBoughtTogether.forEach(item => {
+              this.submitRequestBody.items.push({
+                id: item.querySelector('input[id^="addOnId"]').value,
+                quantity: item.querySelector('input[id^="addOnQuantity"]').value
+              })
+            })
+            this.addToCart();
+          }
+          else if (event.target.matches("#ModalCancelButton")) {
+            this.closeModal();
+            this.addToCart();
           }
           else if (event.target.matches('button[id^="ProductSubmitButton"]')) {
             this.productHandle = event.target.dataset.handle;
           }
         })
-        this.cart = document.querySelector('cart-notification') || document.querySelector('cart-drawer');
-        this.submitButton = this.querySelector('[type="submit"]');
-        this.submitRequestBody = { items: [] };
-        if (document.querySelector('cart-drawer')) this.submitButton.setAttribute('aria-haspopup', 'dialog');
 
+        if (document.querySelector('cart-drawer')) this.submitButton.setAttribute('aria-haspopup', 'dialog');
         this.hideErrors = this.dataset.hideErrors === 'true';
       }
 
@@ -42,31 +55,23 @@ if (!customElements.get('product-form')) {
           id: this.productVariantId,
           quantity: productVariantQuantity
         });
-        //Display add-on modal
+
+        // Fetch the section's text
         let response = await fetch(
           `/products/${this.productHandle}?section_id=template--15793187913815__frequently-together`
         );
         let productMarkup = await response.text();
+
+        //Display add-on modal if product has add-ons
         if (productMarkup.includes('class="frequently-bought-together-item"')) {
           this.openModal(productMarkup, true);       
         }
         else {
-          this.handleSubmitToCart();
+          this.addToCart();
         }
       }
 
-      handleSubmitToCart() {
-        // Include the add-on products
-        const frequentlyBoughtTogether = [...document.querySelectorAll('.frequently-bought-together-item')];
-        frequentlyBoughtTogether.forEach(item => {
-          console.log("item: ", item.innerHTML);
-          const quantity = item.querySelector('input[id^="addOnQuantity"]').value;
-          this.submitRequestBody.items.push({
-            id: item.querySelector('input[id^="addOnId"]').value,
-            quantity: item.querySelector('input[id^="addOnQuantity"]').value
-          })
-        })
-
+      addToCart() {
         if (this.cart) {
           this.submitRequestBody['sections'] = this.cart.getSectionsToRender().map((section) => section.id);
           this.submitRequestBody['sections_url'] = window.location.pathname;
@@ -77,6 +82,7 @@ if (!customElements.get('product-form')) {
           headers: new Headers({ 'Content-Type': 'application/json' }),
           body: JSON.stringify(this.submitRequestBody)
         }
+        this.submitRequestBody = { items: [] };
         fetch(window.Shopify.routes.root + 'cart/add.js', request)
           .then((response) => response.json())
           .then((response) => {
@@ -142,8 +148,6 @@ if (!customElements.get('product-form')) {
           replacingHTML.outerHTML = html;
         }
         document.querySelector("#modal-section").style.display = 'block';
-
-        //   modal.style.display = "block";
         document.getElementById("custom-modal").style.position = "fixed";
       }
 
