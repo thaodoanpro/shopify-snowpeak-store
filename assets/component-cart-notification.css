@@ -98,6 +98,8 @@
 .cart-notification-product {
   align-items: flex-start;
   display: flex;
+  flex-direction: column;
+  gap: 3rem;
   padding-bottom: 3rem;
   padding-top: 2rem;
 }
@@ -119,5 +121,5 @@
 
 .cart-notification-product__name {
   margin-bottom: 0.5rem;
-  margin-top: 0;
+  margin-top: 0.5rem;
 }
