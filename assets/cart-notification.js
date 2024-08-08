@@ -35,7 +35,6 @@ class CartNotification extends HTMLElement {
   }
 
   renderContents(parsedState) {
-    console.log("parsedState: ", parsedState);
     this.cartItemKey = parsedState.items ? parsedState.items[0].key : parsedState.key; //key: a unique hash of a product item in the add to cart response
     this.getSectionsToRender().forEach((section) => {
       document.getElementById(section.id).innerHTML = this.getSectionInnerHTML(
@@ -52,7 +51,6 @@ class CartNotification extends HTMLElement {
     return [
       {
         id: 'cart-notification-product',
-        //selector: `[id="cart-notification-product-${this.cartItemKey}"]`,
         selector: `[id="shopify-section-cart-notification-product"]`
       },
       {

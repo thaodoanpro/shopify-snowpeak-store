@@ -1067,7 +1067,7 @@ class VariantSelects extends HTMLElement {
   }
 
   updateVariantStatuses() {
-    //T Get an array of variant objects whose option1 was selected by users. Why option1 and how is checked attribute set  ???
+    //T Get an array of variant objects whose option1 was selected by users.
     const selectedOptionOneVariants = this.variantData.filter(
       (variant) => this.querySelector(':checked').value === variant.option1
     );

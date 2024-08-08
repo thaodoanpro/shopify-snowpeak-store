@@ -3516,22 +3516,4 @@ details-disclosure > details {
     flex-direction: column;
     align-items: center;
   }
-
-  .frequently-bought-together-item-thumbnail{
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 5px;
-    width: 50px;
-  }
-
-  .frequently-bought-together-and-sign{
-    font: 50px;
-    padding: 30px;
-
-  }
-
-  .frequently-bought-together-item-thumbnail:hover{
-    box-shadow: 0 0 2px 3px rgba(0, 140, 186, 0.5);
-  }
-
 }
