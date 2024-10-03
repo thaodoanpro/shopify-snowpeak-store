@@ -29,7 +29,7 @@ if (!customElements.get('product-info')) {
       }
 
       disconnectedCallback() {
-        if (this.cartUpdateUnsubscriber) {
+        if (this.er) {
           this.cartUpdateUnsubscriber();
         }
         if (this.variantChangeUnsubscriber) {
