@@ -79,6 +79,18 @@
 
               <tbody>
                 {%- for item in cart.items -%}
+                  {%- liquid 
+                    assign displayed_original_line_price = item.original_line_price
+                    assign displayed_final_line_price = item.final_line_price
+                    if item.properties.Engraving != ''
+                      for item1 in cart.items 
+                        if item1.properties._groupId == item.properties._groupId and item1.key != item.key
+                          assign displayed_original_line_price = displayed_original_line_price | plus: item1.original_line_price
+                          assign displayed_final_line_price = displayed_final_line_price | plus: item1.final_line_price
+                        endif
+                      endfor
+                    endif                   
+                  %}
                   <tr class="cart-item {% if item.product.tags contains "hidden" %} visually-hidden {% endif %}" id="CartItem-{{ item.index | plus: 1 }}">
                     <td class="cart-item__media">
                       {% if item.image %}
@@ -181,19 +193,19 @@
                             </dt>
                             <dd>
                               <s class="cart-item__old-price price price--end">
-                                {{ item.original_line_price | money }}
+                                {{ displayed_original_line_price | money }}
                               </s>
                             </dd>
                             <dt class="visually-hidden">
                               {{ 'products.product.price.sale_price' | t }}
                             </dt>
                             <dd class="price price--end">
-                              {{ item.final_line_price | money }}
+                              {{ displayed_final_line_price | money }}
                             </dd>
                           </dl>
                         {%- else -%}
                           <span class="price price--end">
-                            {{ item.original_line_price | money }}
+                            {{ displayed_original_line_price | money }}
                           </span>
                         {%- endif -%}
 
@@ -399,19 +411,19 @@
                             </dt>
                             <dd>
                               <s class="cart-item__old-price price price--end">
-                                {{ item.original_line_price | money }}
+                                {{ displayed_original_line_price | money }}
                               </s>
                             </dd>
                             <dt class="visually-hidden">
                               {{ 'products.product.price.sale_price' | t }}
                             </dt>
                             <dd class="price price--end">
-                              {{ item.final_line_price | money }}
+                              {{ displayed_final_line_price | money }}
                             </dd>
                           </dl>
                         {%- else -%}
                           <span class="price price--end">
-                            {{ item.original_line_price | money }}
+                            {{ displayed_original_line_price | money }}
                           </span>
                         {%- endif -%}
 

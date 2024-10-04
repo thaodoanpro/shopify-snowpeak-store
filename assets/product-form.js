@@ -30,7 +30,7 @@ if (!customElements.get('product-form')) {
         const productVariantId = formData.get('id');
         const productVariantQuantity = document.querySelector('input[name="quantity"]').value;
         const groupId = self.crypto.randomUUID();
-        const engravingText = document.querySelector("#engraving").value;
+        const engravingText = document.querySelector("#engraving") !== null ? document.querySelector("#engraving").value : '';
 
         const body = {
           items: [
