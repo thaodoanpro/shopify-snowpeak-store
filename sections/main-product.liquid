@@ -477,10 +477,15 @@
 
               {%- when 'variant_picker' -%}
                 {%- if product.type == "Snowboard"  -%}
-                    <div class="field">
-                        <input class="field__input" id="your-name" type="text" name="properties[Your name]" form="{{ product_form_id }}" placeholder="Your name">
-                        <label class="field__label">Your name</label>
+                  <div>
+                        <input id="engravingYes" type="checkbox" name="engravingYes" form={{product_form_id}}>
+                        <label for="engravingYes"> Yes, I want to add engraving (+$9.99) </label>
+                    <div class="conditionalHide">
+                      <div class="field">
+                        <input class="field__input" id="engraving" type="text" name="properties[Engraving Text]" form="{{ product_form_id }}" placeholder="Enter Engraving Text">
+                        <label class="field__label" for="engraving">Engraving Text</label>
                     </div>           
+                  </div>
                  {%- endif  -%} 
                 {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
               {%- when 'buy_buttons' -%}

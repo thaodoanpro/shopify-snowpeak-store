@@ -144,10 +144,10 @@
             >
               {%- for product in collection.products -%}
                 {% comment %}
-                  Hide product item based on country and product's tags
+                  Hide products with tag 'hidden'
                 {% endcomment %}
                 
-                {% unless localization.country.iso_code == 'GB' and product.tags contains 'do_not_sell_to_UK' %}
+                {% unless product.tags contains 'hidden' %}
                   {% assign lazy_load = false %}
                   {%- if forloop.index > 2 -%}
                     {%- assign lazy_load = true -%}

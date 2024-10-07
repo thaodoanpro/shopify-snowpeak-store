@@ -5,7 +5,29 @@ class CartRemoveButton extends HTMLElement {
     this.addEventListener('click', (event) => {
       event.preventDefault();
       const cartItems = this.closest('cart-items') || this.closest('cart-drawer-items');
-      cartItems.updateQuantity(this.dataset.index, 0);
+
+      // const targetIndex = event.target.dataset.index;
+      // const targetGroupId = event.target.dataset.groupid;
+      const targetIndex = this.dataset.index;
+      const targetGroupId = this.dataset.groupid;
+      const keys = [];
+      const variantIds = [];
+
+      document.querySelectorAll("[id^=CartItem]").forEach(item => {
+        const key = item.querySelector("input[id^=Quantity]").dataset.key;
+        const groupId = item.querySelector("input[id^=Quantity]").dataset.groupid;
+        const variantId = item.querySelector("input[id^=Quantity]").dataset.quantityVariantId;
+        if (groupId === targetGroupId) {
+          keys.push(key);
+          variantIds.push(variantId);
+        }
+      });
+
+      if (keys.length > 1) {
+        cartItems.updateMultiQuantity(keys, 0, variantIds);
+      } else {
+        cartItems.updateQuantity(targetIndex, 0);
+      }
     });
   }
 }
@@ -43,7 +65,26 @@ class CartItems extends HTMLElement {
   }
 
   onChange(event) {
-    this.updateQuantity(event.target.dataset.index, event.target.value, document.activeElement.getAttribute('name'), event.target.dataset.quantityVariantId);
+    const targetIndex = event.target.dataset.index;
+    const targetGroupId = event.target.dataset.groupid;
+    const targetValue = event.target.value;
+    const keys = [];
+    const variantIds = [];
+
+    this.querySelectorAll("[id^=CartItem]").forEach(item => {
+      const key = item.querySelector("input[id^=Quantity]").dataset.key;
+      const groupId = item.querySelector("input[id^=Quantity]").dataset.groupid;
+      const variantId = item.querySelector("input[id^=Quantity]").dataset.quantityVariantId;
+      if (groupId === targetGroupId) {
+        keys.push(key);
+        variantIds.push(variantId);
+      }
+    });
+    if (keys.length > 1) {
+      this.updateMultiQuantity(keys, targetValue, variantIds);
+    } else {
+      this.updateQuantity(targetIndex, targetValue, document.activeElement.getAttribute('name'), event.target.dataset.quantityVariantId);
+    }     
   }
 
   onCartUpdate() {
@@ -176,6 +217,55 @@ class CartItems extends HTMLElement {
       })
       .finally(() => {
         this.disableLoading(line);
+      });
+  }
+
+  updateMultiQuantity(keys, quantity, variantIds) {
+    const updates = {};
+    keys.forEach((key) => {
+      updates[key] = quantity
+    });
+
+    const body = JSON.stringify({
+      updates,
+      sections: this.getSectionsToRender().map((section) => section.section),
+      sections_url: window.location.pathname,
+    });
+
+    fetch(`${routes.cart_update_url}`, { ...fetchConfig(), ...{ body } })
+      .then((response) => {
+        return response.text();
+      })
+      .then((state) => {
+        const parsedState = JSON.parse(state);
+        if (parsedState.errors) {
+          this.updateLiveRegions(line, parsedState.errors);
+          return;
+        }
+
+        this.classList.toggle('is-empty', parsedState.item_count === 0);
+        const cartDrawerWrapper = document.querySelector('cart-drawer');
+        const cartFooter = document.getElementById('main-cart-footer');
+
+        if (cartFooter) cartFooter.classList.toggle('is-empty', parsedState.item_count === 0);
+        if (cartDrawerWrapper) cartDrawerWrapper.classList.toggle('is-empty', parsedState.item_count === 0);
+
+        this.getSectionsToRender().forEach((section) => {
+          const elementToReplace =
+            document.getElementById(section.id).querySelector(section.selector) || document.getElementById(section.id);
+          elementToReplace.innerHTML = this.getSectionInnerHTML(
+            parsedState.sections[section.section],
+            section.selector
+          );
+        });
+        variantIds.forEach((variantId) => {
+          publish(PUB_SUB_EVENTS.cartUpdate, { source: 'cart-items', cartData: parsedState, variantId: variantId });
+        });
+
+      })
+      .catch(() => {
+        const errors = document.getElementById('cart-errors') || document.getElementById('CartDrawer-CartErrors');
+        errors.textContent = window.cartStrings.error;
       });
   }
 
