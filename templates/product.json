@@ -83,6 +83,10 @@
         "padding_bottom": 12
       }
     },
+    "main-product-review-video": {
+      "type": "main-product-review-video",
+      "settings": {}
+    },
     "related-products": {
       "type": "related-products",
       "settings": {
@@ -104,6 +108,7 @@
   },
   "order": [
     "main",
+    "main-product-review-video",
     "related-products"
   ]
 }
