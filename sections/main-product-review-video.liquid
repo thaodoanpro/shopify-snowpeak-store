@@ -1,0 +1,38 @@
+{%- style -%}
+  .review-videos-container {
+    position: relative;
+    left: 0px;
+    right: 0px;
+    display: flex;
+    justify-content: space-around;
+    background-color:#222523 ;
+    padding-top: 32px;
+    padding-bottom: 32px;
+    margin: 32px 0 32px 0;
+
+  }
+
+  .review-video iframe {
+    width: 560px;
+    height: 315px;
+  }
+{%- endstyle -%}
+
+<div class="review-videos-container">
+  <div class="review-video">
+    <iframe src="https://www.youtube.com/embed/LU4XRgn--eM?si=Z9OWDaFiKSfkHv5M" title="YouTube video player" 
+      frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; 
+      picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>  
+  <div class="review-video"> 
+    <iframe src="https://www.youtube.com/embed/_WHi4_LU2yo?si=s7ti7gsPVeqkxcjW" title="YouTube video player" 
+      frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; 
+      picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+</div>
+
+{%- schema -%}
+{
+  "name":"t:sections.main-product-review-video.name"
+}
+{%- endschema -%}

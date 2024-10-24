@@ -471,10 +471,9 @@
                 <a href="{{ block.settings.page.url }}" class="product-popup-modal__button link no-js">
                   {{- block.settings.text -}}
                 </a>
-             {%- when 'share' -%}
+              {%- when 'share' -%}
                 {% assign share_url = product.selected_variant.url | default: product.url | prepend: request.origin %}
                  {% render 'share-button', block: block, share_link: share_url %}
-
               {%- when 'variant_picker' -%}
                 {%- if product.type == "Snowboard"  -%}
                   <div>
@@ -811,6 +810,7 @@
         ]
       }
     </script>
+
   </div>
 </section>
 

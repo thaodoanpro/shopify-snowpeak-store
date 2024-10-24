@@ -2768,6 +2768,9 @@
         "name": "Quick order list"
       }
     },
+    "main-product-review-video": {
+      "name": "Review videos"
+    },
     "related-products": {
       "name": "Related products",
       "settings": {
