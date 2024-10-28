@@ -5,7 +5,6 @@
     right: 0px;
     display: flex;
     justify-content: space-around;
-    background-color:#222523 ;
     padding-top: 32px;
     padding-bottom: 32px;
     margin: 32px 0 32px 0;
@@ -18,7 +17,7 @@
   }
 {%- endstyle -%}
 
-<div class="review-videos-container">
+<div class="review-videos-container color-{{ section.settings.color_scheme }} gradient no-js-hidden">
   <div class="review-video">
     <iframe src="https://www.youtube.com/embed/LU4XRgn--eM?si=Z9OWDaFiKSfkHv5M" title="YouTube video player" 
       frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; 
@@ -33,6 +32,17 @@
 
 {%- schema -%}
 {
-  "name":"t:sections.main-product-review-video.name"
+  "name":"t:sections.main-product-review-video.name",
+  "tag":"section",
+  "class":"section",
+  "settings":[
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "scheme-1"
+    }
+  ]
 }
 {%- endschema -%}
