@@ -207,15 +207,21 @@
           </div>
         </div>
         {%- if show_quick_add -%}
+          {%- liquid
+            assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id 
+            assign first_option = card_product.options_with_values | first
+            if card_product.options.size == 1 and first_option.values.size > 1
+              render 'product-variant-picker', product: card_product, block: block, product_form_id: product_form_id, collection_page: true
+            endif
+          -%}
           <div class="quick-add no-js-hidden">
             {%- liquid
-              assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id
               assign qty_rules = false
               if card_product.selected_or_first_available_variant.quantity_rule.min > 1 or card_product.selected_or_first_available_variant.quantity_rule.max != null or card_product.selected_or_first_available_variant.quantity_rule.increment > 1
                 assign qty_rules = true
               endif
             -%}
-            {%- if card_product.variants.size > 1 or qty_rules -%}
+            {%- if card_product.options.size > 1 or qty_rules -%}
               <modal-opener data-modal="#QuickAdd-{{ card_product.id }}">
                 <button
                   id="{{ product_form_id }}-submit"
@@ -376,3 +382,27 @@
     </div>
   </div>
 {%- endif -%}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    function isIE() {
+      const ua = window.navigator.userAgent;
+      const msie = ua.indexOf('MSIE ');
+      const trident = ua.indexOf('Trident/');
+
+      return msie > 0 || trident > 0;
+    }
+
+    if (!isIE()) return;
+    const hiddenInput = document.querySelector('#{{ product_form_id }} input[name="id"]');
+    const noScriptInputWrapper = document.createElement('div');
+    const variantPicker = document.querySelector('variant-selects[data-section="{{ section.id }}"]');
+    noScriptInputWrapper.innerHTML = document.querySelector(
+      '.product-form__noscript-wrapper-{{ section.id }}'
+    ).textContent;
+    variantPicker.outerHTML = noScriptInputWrapper.outerHTML;
+
+    document.querySelector('#Variants-{{ section.id }}').addEventListener('change', function (event) {
+      hiddenInput.value = event.currentTarget.value;
+    });
+  });
+</script>

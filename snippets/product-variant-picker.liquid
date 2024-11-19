@@ -6,6 +6,7 @@
   - block: {Object} passing the block information.
   - product_form_id: {String} Id of the product form to which the variant picker is associated.
   - update_url: {Boolean} whether or not to update url when changing variants. If false, the url isn't updated. Default: true (optional).
+  - collection_page: {Boolean} whether or not the picker is displayed on the collection page
   Usage:
   {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
 {% endcomment %}
@@ -15,15 +16,23 @@
     class="no-js-hidden"
     data-section="{{ section.id }}"
     data-url="{{ product.url }}"
+    data-form-id="{{ product_form_id }}"
     {% if update_url == false %}
       data-update-url="false"
     {% endif %}
     {{ block.shopify_attributes }}
+    {% if collection_page == true %}
+      style="z-index: 10;"
+    {% endif %}
   >
     {%- for option in product.options_with_values -%}
       {%- liquid
         assign swatch_count = option.values | map: 'swatch' | compact | size
-        assign picker_type = block.settings.picker_type
+        if collection_page == true
+          assign picker_type = 'dropdown'
+        else
+          assign picker_type = block.settings.picker_type
+        endif
 
         if swatch_count > 0 and block.settings.swatch_shape != 'none'
           if block.settings.picker_type == 'dropdown'
@@ -55,7 +64,7 @@
             product: product,
             option: option,
             block: block,
-            picker_type: picker_type
+            picker_type: picker_type,
           %}
         </fieldset>
       {%- else -%}
