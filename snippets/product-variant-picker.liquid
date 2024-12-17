@@ -21,14 +21,14 @@
       data-update-url="false"
     {% endif %}
     {{ block.shopify_attributes }}
-    {% if collection_page == true %}
+    {% if collection_page %}
       style="z-index: 10;"
     {% endif %}
   >
     {%- for option in product.options_with_values -%}
       {%- liquid
         assign swatch_count = option.values | map: 'swatch' | compact | size
-        if collection_page == true
+        if collection_page
           assign picker_type = 'dropdown'
         else
           assign picker_type = block.settings.picker_type
@@ -64,7 +64,7 @@
             product: product,
             option: option,
             block: block,
-            picker_type: picker_type,
+            picker_type: picker_type
           %}
         </fieldset>
       {%- else -%}
