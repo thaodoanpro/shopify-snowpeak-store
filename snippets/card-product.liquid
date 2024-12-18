@@ -207,13 +207,6 @@
           </div>
         </div>
         {%- if show_quick_add -%}
-          {%- liquid
-            assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id 
-            assign first_option = card_product.options_with_values | first
-            if card_product.options.size == 1
-              render 'product-variant-picker', product: card_product, product_form_id: product_form_id, collection_page: true
-            endif
-          -%}
           <div class="quick-add no-js-hidden">
             {%- liquid
               assign qty_rules = false
@@ -221,7 +214,7 @@
                 assign qty_rules = true
               endif
             -%}
-            {%- if card_product.options.size > 1 or qty_rules -%}
+            {%- if qty_rules -%}
               <modal-opener data-modal="#QuickAdd-{{ card_product.id }}">
                 <button
                   id="{{ product_form_id }}-submit"
@@ -259,6 +252,10 @@
                 </div>
               </quick-add-modal>
             {%- else -%}
+              {%- liquid
+              assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id 
+              render 'product-variant-picker', product: card_product, product_form_id: product_form_id, collection_page: true
+              -%}
               <product-form data-section-id="{{ section.id }}">
                 {%- form 'product',
                   card_product,
