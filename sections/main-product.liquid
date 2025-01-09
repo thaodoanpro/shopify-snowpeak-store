@@ -486,7 +486,7 @@
                     </div>           
                   </div>
                  {%- endif  -%} 
-                {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+                {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id, picker_type: block.settings.picker_type %}
               {%- when 'buy_buttons' -%}
                  {% if product.tags contains 'do_not_sell_to_UK' and localization.country.iso_code == 'GB' %}
                   {% comment %}
