@@ -1239,9 +1239,56 @@ class VariantSelects extends HTMLElement {
 
 customElements.define('variant-selects', VariantSelects);
 
-class ProductRecommendations extends HTMLElement {
+class VariantSelect2 extends HTMLElement {
   constructor() {
     super();
+    this.addEventListener('change', this.onVariantSelect2Change);
+  }
+  
+  onVariantSelect2Change() {
+    this.getSelectedVariant();
+    if (this.selectedVariant !== null)
+      this.updateFormInput();
+  }
+
+  getVariantData() {
+    this.variantData = this.variantData || JSON.parse(this.querySelector("script[type='application/json']").textContent);
+  }
+
+  getSelectedOptions() {
+    this.selectedOptions = [...this.querySelectorAll('select','fieldset')].map((element) => {
+      if (element.tagName === 'SELECT') {
+        return element.value;
+      }
+      if (element.tagName === 'FIELDSET') {
+        return Array.from(element.querySelectorAll('input')).find((radio) => radio.checked)?.value;
+      }
+    });
+  }
+
+  getSelectedVariant() {
+    this.getSelectedOptions();
+    this.getVariantData();
+    this.selectedVariant = this.variantData.find((variant) => {
+      for (let i = 0; i < this.selectedOptions.length; i++) {
+        if (variant.options[i] !== this.selectedOptions[i]) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }
+
+  updateFormInput() {
+    document.querySelector(`form[id="${this.dataset.formId}"]`).querySelector('input[name="id"]').value = this.selectedVariant.id;
+  }
+
+}
+customElements.define('variant-select-2', VariantSelect2);
+
+class ProductRecommendations extends HTMLElement {
+  constructor() {
+    super(); 
   }
 
   connectedCallback() {
