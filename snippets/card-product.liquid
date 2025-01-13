@@ -280,11 +280,13 @@
                     aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
                     aria-live="polite"
                     data-sold-out-message="true"
+                    data-add-to-cart-text = "{{ 'products.product.add_to_cart' | t }}"
+                    data-sold-out-text = "{{ 'products.product.sold_out' | t }}"
                     {% if card_product.selected_or_first_available_variant.available == false %}
                       disabled
                     {% endif %}
                   >
-                    <span>
+                    <span id="button-text">
                       {%- if card_product.selected_or_first_available_variant.available -%}
                         {{ 'products.product.add_to_cart' | t }}
                       {%- else -%}

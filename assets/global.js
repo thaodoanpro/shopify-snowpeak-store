@@ -1249,6 +1249,7 @@ class VariantSelect2 extends HTMLElement {
     this.getSelectedVariant();
     if (this.selectedVariant !== null)
       this.updateFormInput();
+      this.updateFormButton();
   }
 
   getVariantData() {
@@ -1256,14 +1257,8 @@ class VariantSelect2 extends HTMLElement {
   }
 
   getSelectedOptions() {
-    this.selectedOptions = [...this.querySelectorAll('select','fieldset')].map((element) => {
-      if (element.tagName === 'SELECT') {
-        return element.value;
-      }
-      if (element.tagName === 'FIELDSET') {
-        return Array.from(element.querySelectorAll('input')).find((radio) => radio.checked)?.value;
-      }
-    });
+    this.selectedOptions = [...this.querySelectorAll('select')].map((element) => {
+           return element.value;});
   }
 
   getSelectedVariant() {
@@ -1280,7 +1275,21 @@ class VariantSelect2 extends HTMLElement {
   }
 
   updateFormInput() {
-    document.querySelector(`form[id="${this.dataset.formId}"]`).querySelector('input[name="id"]').value = this.selectedVariant.id;
+    const input = document.querySelector(`form[id="${this.dataset.formId}"]`).querySelector('input[name="id"]');
+    input.value = this.selectedVariant.id;
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  updateFormButton() {
+    const button = document.querySelector(`form[id="${this.dataset.formId}"]`).querySelector('button[name="add"]');
+    if (this.selectedVariant.available) {
+      button.removeAttribute("disabled");
+      button.querySelector("#button-text").textContent = button.dataset.addToCartText;
+    }
+    else {
+      button.setAttribute("disabled","");
+      button.querySelector("#button-text").textContent = button.dataset.soldOutText;
+    }
   }
 
 }

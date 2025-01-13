@@ -10,7 +10,9 @@
 {% endcomment %}
 
 {%- unless product.has_only_default_variant -%}
-  <variant-select-2 data-form-id = "{{ formId }}">
+  <variant-select-2 
+    data-form-id = "{{ formId }}"
+  >
       {% for option in product.options_with_values %}
         <div class="product-form__input product-form__input--dropdown">
           <label for="{{ product.id }}_option{{forloop.index0}}" class="form__label"></label>{{ option.name }}</label>

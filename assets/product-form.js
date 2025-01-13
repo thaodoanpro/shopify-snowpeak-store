@@ -73,7 +73,6 @@ if (!customElements.get('product-form')) {
         fetch(window.Shopify.routes.root + 'cart/add.js', request)
           .then((response) => response.json())
           .then((response) => {
-            console.log("product-form card add response: ", response);
             if (response.status) {
               publish(PUB_SUB_EVENTS.cartError, {
                 source: 'product-form',
