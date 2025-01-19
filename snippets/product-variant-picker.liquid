@@ -6,7 +6,6 @@
   - block: {Object} passing the block information.
   - product_form_id: {String} Id of the product form to which the variant picker is associated.
   - update_url: {Boolean} whether or not to update url when changing variants. If false, the url isn't updated. Default: true (optional).
-  - collection_page: {Boolean} whether or not the picker is displayed on the collection page
   - picker_type: {string} type of picker to display
   Usage:
   {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
@@ -14,7 +13,7 @@
 {%- unless product.has_only_default_variant -%}
   <variant-selects
     id="variant-selects-{{ section.id }}"
-    class="{% if collection_page != true %} no-js-hidden  {% endif %}"
+    class="no-js-hidden"
     data-section="{{ section.id }}"
     data-url="{{ product.url }}"
     data-form-id="{{ product_form_id }}"

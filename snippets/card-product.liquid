@@ -254,7 +254,7 @@
             {%- else -%}
               {%- liquid
               assign product_form_id = 'quick-add-' | append: section_id | append: card_product.id 
-              render 'product-variant-picker', product: card_product, product_form_id: product_form_id, collection_page: true, picker_type: "dropdown"
+              render 'product-variant-picker', product: card_product, product_form_id: product_form_id, picker_type: "dropdown"
               -%}
               <product-form data-section-id="{{ section.id }}">
                 {%- form 'product',
