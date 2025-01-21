@@ -483,10 +483,11 @@
                       <div class="field">
                         <input class="field__input" id="engraving" type="text" name="properties[Engraving Text]" form="{{ product_form_id }}" placeholder="Enter Engraving Text">
                         <label class="field__label" for="engraving">Engraving Text</label>
+                      </div>
                     </div>           
                   </div>
                  {%- endif  -%} 
-                {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+                {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id, picker_type: block.settings.picker_type %}
               {%- when 'buy_buttons' -%}
                  {% if product.tags contains 'do_not_sell_to_UK' and localization.country.iso_code == 'GB' %}
                   {% comment %}
