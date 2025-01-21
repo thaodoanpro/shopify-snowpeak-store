@@ -1239,9 +1239,66 @@ class VariantSelects extends HTMLElement {
 
 customElements.define('variant-selects', VariantSelects);
 
-class ProductRecommendations extends HTMLElement {
+class VariantSelect2 extends HTMLElement {
   constructor() {
     super();
+    this.addEventListener('change', this.onVariantSelect2Change);
+  }
+  
+  onVariantSelect2Change() {
+    this.getSelectedVariant();
+    if (this.selectedVariant !== null)
+      this.updateFormInput();
+      this.updateFormButton();
+  }
+
+  updateVariantData() {
+    this.variantData = this.variantData || JSON.parse(this.querySelector("script[type='application/json']").textContent);
+  }
+
+  getSelectedOptions() {
+    const selectedOptions = [...this.querySelectorAll('select')].map((element) => {
+      return element.value;
+    });
+    return selectedOptions;
+  }
+
+  getSelectedVariant() {
+    const selectedOptions = this.getSelectedOptions();
+    this.updateVariantData();
+    this.selectedVariant = this.variantData.find((variant) => {
+      for (let i = 0; i < selectedOptions.length; i++) {
+        if (variant.options[i] !== selectedOptions[i]) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }
+
+  updateFormInput() {
+    const input = document.querySelector(`form[id="${this.dataset.formId}"]`).querySelector('input[name="id"]');
+    input.value = this.selectedVariant.id;
+  }
+
+  updateFormButton() {
+    const button = document.querySelector(`form[id="${this.dataset.formId}"]`).querySelector('button[name="add"]');
+    if (this.selectedVariant.available) {
+      button.removeAttribute("disabled");
+      button.querySelector("#button-text").textContent = button.dataset.addToCartText;
+    }
+    else {
+      button.setAttribute("disabled", "");
+      button.querySelector("#button-text").textContent = button.dataset.soldOutText;
+    }
+  }
+
+}
+customElements.define('variant-select-2', VariantSelect2);
+
+class ProductRecommendations extends HTMLElement {
+  constructor() {
+    super(); 
   }
 
   connectedCallback() {
