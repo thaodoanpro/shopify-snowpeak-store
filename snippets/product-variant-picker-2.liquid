@@ -4,18 +4,18 @@
 
   Accepts:
   - product: {Object} product object.
-  - formId: {String} Id of this form
+  - product_form_id: {String} Id of this form
   Usage:
   {% render 'product-variant-picker-2', product: product, product_form_id: product_form_id %}
 {% endcomment %}
 
 {%- unless product.has_only_default_variant -%}
   <variant-select-2 
-    data-form-id = "{{ formId }}"
+    data-form-id = "{{ product_form_id }}"
   >
       {% for option in product.options_with_values %}
         <div class="product-form__input product-form__input--dropdown">
-          <label for="{{ product.id }}_option{{forloop.index0}}" class="form__label"></label>{{ option.name }}</label>
+          <label for="{{ product.id }}_option{{forloop.index0}}" class="form__label">{{ option.name }}</label>
           <div class="select">
             <select name="{{ option.name }}" id="{{ product.id }}_option{{forloop.index0}}" class="select__select">
             {% for value in option.values %}
@@ -29,8 +29,8 @@
 
       {% comment %} List of all variants of the products {% endcomment %}
       <script type="application/json">
-      {{ product.variants | json }}
-    </script>
+        {{ product.variants | json }}
+      </script>
 
  </variant-select-2>
 {%- endunless %}

@@ -1252,21 +1252,23 @@ class VariantSelect2 extends HTMLElement {
       this.updateFormButton();
   }
 
-  getVariantData() {
+  updateVariantData() {
     this.variantData = this.variantData || JSON.parse(this.querySelector("script[type='application/json']").textContent);
   }
 
   getSelectedOptions() {
-    this.selectedOptions = [...this.querySelectorAll('select')].map((element) => {
-           return element.value;});
+    const selectedOptions = [...this.querySelectorAll('select')].map((element) => {
+      return element.value;
+    });
+    return selectedOptions;
   }
 
   getSelectedVariant() {
-    this.getSelectedOptions();
-    this.getVariantData();
+    const selectedOptions = this.getSelectedOptions();
+    this.updateVariantData();
     this.selectedVariant = this.variantData.find((variant) => {
-      for (let i = 0; i < this.selectedOptions.length; i++) {
-        if (variant.options[i] !== this.selectedOptions[i]) {
+      for (let i = 0; i < selectedOptions.length; i++) {
+        if (variant.options[i] !== selectedOptions[i]) {
           return false;
         }
       }
@@ -1277,7 +1279,6 @@ class VariantSelect2 extends HTMLElement {
   updateFormInput() {
     const input = document.querySelector(`form[id="${this.dataset.formId}"]`).querySelector('input[name="id"]');
     input.value = this.selectedVariant.id;
-    input.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
   updateFormButton() {
@@ -1287,7 +1288,7 @@ class VariantSelect2 extends HTMLElement {
       button.querySelector("#button-text").textContent = button.dataset.addToCartText;
     }
     else {
-      button.setAttribute("disabled","");
+      button.setAttribute("disabled", "");
       button.querySelector("#button-text").textContent = button.dataset.soldOutText;
     }
   }
