@@ -79,22 +79,7 @@
 
               <tbody>
                 {%- for item in cart.items -%}
-                  {%- liquid 
-                    assign displayed_original_line_price = item.original_line_price
-                    assign displayed_final_line_price = item.final_line_price
-                    if item.properties.Engraving != ''
-                      for item1 in cart.items 
-                        if item1.properties._groupId == item.properties._groupId and item1.key != item.key
-                          assign displayed_original_line_price = displayed_original_line_price | plus: item1.original_line_price
-                          assign displayed_final_line_price = displayed_final_line_price | plus: item1.final_line_price
-                          if item1.product.handle == "engraving-text"
-                            assign engraving_unit_price = item1.final_price | money
-                          endif
-                        endif
-                      endfor
-                    endif                   
-                  %}
-                  <tr class="cart-item {% if item.product.tags contains "hidden" %} visually-hidden {% endif %}" id="CartItem-{{ item.index | plus: 1 }}">
+                  <tr class="cart-item" id="CartItem-{{ item.index | plus: 1 }}">
                     <td class="cart-item__media">
                       {% if item.image %}
                         {% comment %} Leave empty space due to a:empty CSS display: none rule {% endcomment %}
@@ -165,7 +150,7 @@
                                       {{ property.last | split: '/' | last }}
                                     </a>
                                   {%- else -%}
-                                    {{ property.last }} {%- if property.first == "Engraving" -%} &#9; &#x28; +{{engraving_unit_price}} &#x29; {% endif %}
+                                    {{ property.last }}
                                   {%- endif -%}
                                 </dd>
                               </div>
@@ -196,19 +181,19 @@
                             </dt>
                             <dd>
                               <s class="cart-item__old-price price price--end">
-                                {{ displayed_original_line_price | money }}
+                                {{ item.original_line_price | money }}
                               </s>
                             </dd>
                             <dt class="visually-hidden">
                               {{ 'products.product.price.sale_price' | t }}
                             </dt>
                             <dd class="price price--end">
-                              {{ displayed_final_line_price | money }}
+                              {{ item.final_line_price | money }}
                             </dd>
                           </dl>
                         {%- else -%}
                           <span class="price price--end">
-                            {{ displayed_original_line_price | money }}
+                            {{ item.original_line_price | money }}
                           </span>
                         {%- endif -%}
 
@@ -279,8 +264,6 @@
                                 aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title | escape }}"
                                 id="Quantity-{{ item.index | plus: 1 }}"
                                 data-index="{{ item.index | plus: 1 }}"
-                                data-groupid = "{{item.properties._groupId}}"
-                                data-key = "{{item.key}}"
                               >
                               <button class="quantity__button no-js-hidden" name="plus" type="button">
                                 <span class="visually-hidden">
@@ -293,7 +276,6 @@
                           <cart-remove-button
                             id="Remove-{{ item.index | plus: 1 }}"
                             data-index="{{ item.index | plus: 1 }}"
-                            data-groupid = "{{item.properties._groupId}}"
                           >
                             <a
                               href="{{ item.url_to_remove }}"
@@ -414,19 +396,19 @@
                             </dt>
                             <dd>
                               <s class="cart-item__old-price price price--end">
-                                {{ displayed_original_line_price | money }}
+                                {{ item.original_line_price | money }}
                               </s>
                             </dd>
                             <dt class="visually-hidden">
                               {{ 'products.product.price.sale_price' | t }}
                             </dt>
                             <dd class="price price--end">
-                              {{ displayed_final_line_price | money }}
+                              {{ item.final_line_price | money }}
                             </dd>
                           </dl>
                         {%- else -%}
                           <span class="price price--end">
-                            {{ displayed_original_line_price | money }}
+                            {{ item.original_line_price | money }}
                           </span>
                         {%- endif -%}
 

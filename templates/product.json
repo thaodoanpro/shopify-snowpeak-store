@@ -12,18 +12,15 @@
         },
         "title": {
           "type": "title",
-          "settings": {
-          }
+          "settings": {}
         },
         "product-rating": {
           "type": "rating",
-          "settings": {
-          }
+          "settings": {}
         },
         "price": {
           "type": "price",
-          "settings": {
-          }
+          "settings": {}
         },
         "variant_picker": {
           "type": "variant_picker",
@@ -34,8 +31,7 @@
         },
         "quantity_selector": {
           "type": "quantity_selector",
-          "settings": {
-          }
+          "settings": {}
         },
         "buy_buttons": {
           "type": "buy_buttons",
@@ -46,13 +42,30 @@
         },
         "description": {
           "type": "description",
-          "settings": {
-          }
+          "settings": {}
         },
         "share": {
           "type": "share",
           "settings": {
             "share_label": "Share"
+          }
+        },
+        "collapsible_tab_6i7mxe": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Refund Policies",
+            "icon": "question_mark",
+            "content": "<p><a href=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0585\/8397\/3975\/files\/Refund_Policies.pdf?v=1718232591\" title=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0585\/8397\/3975\/files\/Refund_Policies.pdf?v=1718232591\">Click here to view the refund policies<\/a><\/p>",
+            "page": ""
+          }
+        },
+        "collapsible_tab_b3nEjg": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Frequently Bought Together",
+            "icon": "check_mark",
+            "content": "{{ product.metafields.custom.frequently_bought_together_manual_ | metafield_tag }}",
+            "page": ""
           }
         }
       },
@@ -65,7 +78,9 @@
         "quantity_selector",
         "buy_buttons",
         "description",
-        "share"
+        "share",
+        "collapsible_tab_6i7mxe",
+        "collapsible_tab_b3nEjg"
       ],
       "settings": {
         "enable_sticky_info": true,
@@ -82,10 +97,6 @@
         "padding_top": 36,
         "padding_bottom": 12
       }
-    },
-    "main-product-review-video": {
-      "type": "main-product-review-video",
-      "settings": {}
     },
     "related-products": {
       "type": "related-products",
@@ -108,7 +119,6 @@
   },
   "order": [
     "main",
-    "main-product-review-video",
     "related-products"
   ]
 }

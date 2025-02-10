@@ -26,57 +26,28 @@ if (!customElements.get('product-form')) {
         this.submitButton.classList.add('loading');
         this.querySelector('.loading__spinner').classList.remove('hidden');
 
+        const config = fetchConfig('javascript');
+        config.headers['X-Requested-With'] = 'XMLHttpRequest';
+        delete config.headers['Content-Type'];
+
         const formData = new FormData(this.form);
-        const productVariantId = formData.get('id');
-        const productVariantQuantity = document.querySelector('input[name="quantity"]') ? document.querySelector('input[name="quantity"]').value : 1;
-        const groupId = self.crypto.randomUUID();
-        const engravingText = document.querySelector("#engraving") !== null ? document.querySelector("#engraving").value : '';
-
-        const body = {
-          items: [
-            {
-              id: productVariantId,
-              quantity: productVariantQuantity,
-              properties: {
-                "Engraving": engravingText,
-                "_groupId": groupId
-              }
-            }
-          ]
-        };
-
-        //Include engraving product if applicable
-        if (engravingText !== '') {
-          body.items.push(
-            {
-              id: "41230285930583", //variant ID of engraving product
-              quantity: productVariantQuantity,
-              properties: {
-                "_groupId": groupId
-              }
-            }
-          );
-        }
-
         if (this.cart) {
-          body['sections'] = this.cart.getSectionsToRender().map(section => section.id);
-          body['sections_url'] = window.location.pathname;
+          formData.append(
+            'sections',
+            this.cart.getSectionsToRender().map((section) => section.id)
+          );
+          formData.append('sections_url', window.location.pathname);
           this.cart.setActiveElement(document.activeElement);
         }
+        config.body = formData;
 
-        const request = {
-          method: 'POST',
-          headers: new Headers({ 'Content-Type': 'application/json' }),
-          body: JSON.stringify(body)
-        }
-
-        fetch(window.Shopify.routes.root + 'cart/add.js', request)
+        fetch(`${routes.cart_add_url}`, config)
           .then((response) => response.json())
           .then((response) => {
             if (response.status) {
               publish(PUB_SUB_EVENTS.cartError, {
                 source: 'product-form',
-                productVariantId: productVariantId,
+                productVariantId: formData.get('id'),
                 errors: response.errors || response.description,
                 message: response.message,
               });
@@ -97,7 +68,7 @@ if (!customElements.get('product-form')) {
             if (!this.error)
               publish(PUB_SUB_EVENTS.cartUpdate, {
                 source: 'product-form',
-                productVariantId: productVariantId,
+                productVariantId: formData.get('id'),
                 cartData: response,
               });
             this.error = false;

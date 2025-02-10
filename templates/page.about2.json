@@ -11,12 +11,14 @@
     "image-banner": {
       "type": "image-banner",
       "settings": {
+        "image": "shopify:\/\/shop_images\/team-hands-in.jpg",
         "image_overlay_opacity": 0,
         "image_height": "medium",
         "desktop_content_position": "middle-center",
         "show_text_box": true,
         "desktop_content_alignment": "center",
         "color_scheme": "scheme-1",
+        "image_behavior": "none",
         "mobile_content_alignment": "center",
         "stack_images_on_mobile": true,
         "show_text_below": true
@@ -28,14 +30,14 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "RICH TEXT",
+            "heading": "Meet Our Team",
             "heading_size": "h0"
           }
         },
         "text": {
           "type": "text",
           "settings": {
-            "text": "<p>Introduce your team by providing an overview of what they do, when they joined, and how their expertise shapes your brand. <\/p>"
+            "text": "<p>Welcome to SnowPeak Gear, your go-to source for premium snow sport equipment. Founded by sisters Samantha and Jessica Blake, we are passionate about quality and sustainability. Our expert team, including CTO Emily Chen and Supply Chain Manager David Martinez, ensures top-notch products and service. Head of Customer Success Mia Thompson and her team are here to make your shopping experience seamless and enjoyable. Equip yourself for every snowy adventure with SnowPeak Gear!<\/p>"
           }
         },
         "button": {
@@ -70,146 +72,22 @@
       "blocks": {
         "column-1": {
           "type": "column",
+          "repeater": "{{ page.metafields.custom.meet_the_team.value }}",
           "settings": {
-            "title": "TEAM MEMBER NAME",
-            "text": "<p>Describe this team member's expertise and unique skills. Consider adding an image to your column to represent this team member. <\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column-2": {
-          "type": "column",
-          "settings": {
-            "title": "TEAM MEMBER NAME",
-            "text": "<p>Describe this team member's expertise and unique skills. Consider adding an image to your column to represent this team member. <\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column-3": {
-          "type": "column",
-          "settings": {
-            "title": "TEAM MEMBER NAME",
-            "text": "<p>Describe this team member's expertise and unique skills. Consider adding an image to your column to represent this team member. <\/p>",
+            "image": "{{ block.repeater.photos.value }}",
+            "title": "{{ block.repeater.name.value }}",
+            "text": "{{ block.repeater.bio | metafield_tag }}",
             "link_label": "",
             "link": ""
           }
         }
       },
       "block_order": [
-        "column-1",
-        "column-2",
-        "column-3"
+        "column-1"
       ],
       "settings": {
         "title": "",
         "heading_size": "h0",
-        "image_width": "full",
-        "image_ratio": "square",
-        "columns_desktop": 3,
-        "column_alignment": "left",
-        "background_style": "none",
-        "button_label": "",
-        "button_link": "",
-        "color_scheme": "scheme-1",
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "padding_top": 0,
-        "padding_bottom": 0
-      }
-    },
-    "multicolumn-1": {
-      "type": "multicolumn",
-      "blocks": {
-        "column-1": {
-          "type": "column",
-          "settings": {
-            "title": "TEAM MEMBER",
-            "text": "<p>Describe this team member's expertise and unique skills. Consider adding an image to your column to represent this team member. <\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column-2": {
-          "type": "column",
-          "settings": {
-            "title": "TEAM MEMBER",
-            "text": "<p>Describe this team member's expertise and unique skills. Consider adding an image to your column to represent this team member. <\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "column-1",
-        "column-2"
-      ],
-      "settings": {
-        "title": "",
-        "heading_size": "h1",
-        "image_width": "full",
-        "image_ratio": "square",
-        "columns_desktop": 2,
-        "column_alignment": "left",
-        "background_style": "none",
-        "button_label": "",
-        "button_link": "",
-        "color_scheme": "scheme-2",
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "padding_top": 0,
-        "padding_bottom": 0
-      }
-    },
-    "multicolumn-2": {
-      "type": "multicolumn",
-      "blocks": {
-        "column-1": {
-          "type": "column",
-          "settings": {
-            "title": "TEAM MEMBER",
-            "text": "<p>Describe this team member's expertise and unique skills. Consider adding an image to your column to represent this team member. <\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column-2": {
-          "type": "column",
-          "settings": {
-            "title": "TEAM MEMBER",
-            "text": "<p>Describe this team member's expertise and unique skills. Consider adding an image to your column to represent this team member. <\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column-3": {
-          "type": "column",
-          "settings": {
-            "title": "TEAM MEMBER",
-            "text": "<p>Describe this team member's expertise and unique skills. Consider adding an image to your column to represent this team member. <\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column-4": {
-          "type": "column",
-          "settings": {
-            "title": "TEAM MEMBER",
-            "text": "<p>Describe this team member's expertise and unique skills. Consider adding an image to your column to represent this team member. <\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "column-1",
-        "column-2",
-        "column-3",
-        "column-4"
-      ],
-      "settings": {
-        "title": "",
-        "heading_size": "h1",
         "image_width": "full",
         "image_ratio": "square",
         "columns_desktop": 4,
@@ -229,8 +107,6 @@
     "main",
     "image-banner",
     "rich-text",
-    "multicolumn",
-    "multicolumn-1",
-    "multicolumn-2"
+    "multicolumn"
   ]
 }
