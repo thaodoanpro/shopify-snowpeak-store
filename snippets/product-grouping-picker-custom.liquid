@@ -1,0 +1,46 @@
+{% if product.metafields.custom[block.settings.option_type_metafield_key] %}
+  {% assign related_products_metaobject =  product.metafields.custom[block.settings.option_type_metafield_key].value %}
+  {% assign related_products = related_products_metaobject.product_grouping.value %}
+
+  {% if block.settings.picker_type == 'button' %}
+    <fieldset class="js product-form__input product-form__input--pill">
+      <legend class="form__label">{{ block.settings.grouping_label }}</legend>
+      {% for related_product in related_products %}
+        <input
+          type="radio"
+          id="related_product-{{related_product.id}}-{{block.id}}"
+          name="related-product_{{block.id}}"
+          value="{{related_product.url}}"
+          onchange="window.location.href=this.value;"
+          {% if product.handle == related_product.handle %}
+            checked = "checked"            
+          {% endif %}
+        >
+        <label for="related_product-{{related_product.id}}-{{block.id}}">{{ related_product.metafields.custom[block.settings.option_value_metafield_key].value }}</label>
+      {% endfor %}
+    </fieldset>
+  {% elsif  block.settings.picker_type == "dropdown"%}
+    <div class="product-form__input product-form__input--dropdown">
+      <label for="ProductSelect-related-{{section.id}}" class="form__label">{{ block.settings.group_label }}</label>
+      <div class="select">
+        <select 
+          id="ProductSelect-related-{{ section.id }}-{{ block.id }}"
+          class="select__select"
+          onchange="window.location.href=this.value;"
+        >
+          {% for related_product in related_products %}
+            <option
+              value="{{ related_product.url }}"
+              {% if product.handle == related_product.handle %}
+                selected = "selected"
+              {% endif %}
+            >
+              {{related_product.metafields.custom[block.settings.option_type_metafield_key].value}}
+            </option>
+          {% endfor %}
+        </select>
+        {% render 'icon-caret' %}
+      </div>
+    </div>
+  {% endif %}
+{% endif %}

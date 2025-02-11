@@ -9,8 +9,8 @@
   {{ 'component-slider.css' | asset_url | stylesheet_tag }}
   {{ 'component-rating.css' | asset_url | stylesheet_tag }}
   {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
-  {% unless product.has_only_default_variant %}
     {{ 'component-product-variant-picker.css' | asset_url | stylesheet_tag }}
+    {% unless product.has_only_default_variant %}
     {{ 'component-swatch-input.css' | asset_url | stylesheet_tag }}
     {{ 'component-swatch.css' | asset_url | stylesheet_tag }}
   {% endunless %}
@@ -483,14 +483,19 @@
                     </div>           
                  {%- endif  -%} 
                 {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+              
+              {% when 'product_grouping_picker' %}
+                {% render 'product-grouping-picker-custom', product: product, block: block %}
+
               {%- when 'buy_buttons' -%}
                 {%- render 'buy-buttons',
-                  block: block,
-                  product: product,
-                  product_form_id: product_form_id,
-                  section_id: section.id,
-                  show_pickup_availability: true
+                block: block,
+                product: product,
+                product_form_id: product_form_id,
+                section_id: section.id,
+                show_pickup_availability: true
                 -%}
+              
               {%- when 'rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
                   <div class="rating-wrapper">
@@ -970,6 +975,54 @@
           ],
           "default": "circle"
         }
+      ]
+    },
+    {
+      "type": "product_grouping_picker",
+      "name": "Product Grouping Picker",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id":"heading",
+          "default": "Product Grouping Picker",
+          "label": "Product Grouping Picker Option"
+        },
+        {
+          "type": "select",
+          "id": "picker_type",
+          "options":[
+            {
+              "value": "dropdown",
+              "label": "Dropdown"
+            },
+            {
+              "value": "button",
+              "label": "Button"
+            }],
+          "default": "button",
+          "label": "Picker Type"
+        },
+        {
+          "type": "text",
+          "id": "grouping_label",
+          "label": "Product Grouping Label",
+          "default": "Grouping 1"
+        },
+        {
+          "type": "text",
+          "id": "option_type_metafield_key",
+          "label": "Option Metafield Key",
+          "info": "Used for the grouping option",
+          "default": "product_grouping_option_1"
+        },
+        {
+          "type": "text",
+          "id": "option_value_metafield_key",
+          "label": "Option Value Metafield Key",
+          "info": "Used for the grouping option value text",
+          "default": "product_grouping_option_1_value"
+        } 
       ]
     },
     {

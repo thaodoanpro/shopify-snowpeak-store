@@ -29,6 +29,10 @@
             "swatch_shape": "circle"
           }
         },
+        "product_grouping_picker": {
+          "type": "product_grouping_picker",
+          "settings": {}
+        },
         "quantity_selector": {
           "type": "quantity_selector",
           "settings": {}
@@ -58,15 +62,6 @@
             "content": "<p><a href=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0585\/8397\/3975\/files\/Refund_Policies.pdf?v=1718232591\" title=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0585\/8397\/3975\/files\/Refund_Policies.pdf?v=1718232591\">Click here to view the refund policies<\/a><\/p>",
             "page": ""
           }
-        },
-        "collapsible_tab_b3nEjg": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Frequently Bought Together",
-            "icon": "check_mark",
-            "content": "{{ product.metafields.custom.frequently_bought_together_manual_ | metafield_tag }}",
-            "page": ""
-          }
         }
       },
       "block_order": [
@@ -75,12 +70,12 @@
         "product-rating",
         "price",
         "variant_picker",
+        "product_grouping_picker",
         "quantity_selector",
         "buy_buttons",
         "description",
         "share",
-        "collapsible_tab_6i7mxe",
-        "collapsible_tab_b3nEjg"
+        "collapsible_tab_6i7mxe"
       ],
       "settings": {
         "enable_sticky_info": true,
@@ -116,7 +111,7 @@
         "padding_bottom": 40
       }
     }
-  },
+    },
   "order": [
     "main",
     "related-products"
