@@ -1,23 +1,9 @@
-{% comment %}
-  Show image based on country
-{% endcomment %}
-
-{%- liquid 
-  assign display_image = section.settings.image
-  case localization.country.iso_code
-    when section.settings.available_country_1
-      assign display_image = section.settings.image_1
-    when section.settings.available_country_2
-      assign display_image = section.settings.image_2
-  endcase
--%}
-   
 {{ 'component-image-with-text.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings. padding_bottom | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
 
   @media screen and (min-width: 750px) {
@@ -44,13 +30,13 @@
       <div class="image-with-text__grid grid grid--gapless grid--1-col grid--{% if section.settings.desktop_image_width == 'medium' %}2-col-tablet{% else %}3-col-tablet{% endif %}{% if section.settings.layout == 'text_first' %} image-with-text__grid--reverse{% endif %}">
         <div class="image-with-text__media-item image-with-text__media-item--{{ section.settings.desktop_image_width }} image-with-text__media-item--{{ section.settings.desktop_content_position }} grid__item">
           <div
-            class="image-with-text__media image-with-text__media--{{ section.settings.height }} global-media-settings{% unless remove_color_classes %} gradient color-{{ section.settings.color_scheme }}{% else %} background-transparent{% endunless %}{% if display_image != blank %} media{% else %} image-with-text__media--placeholder placeholder{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}"
-            {% if section.settings.height == 'adapt' and display_image != blank %}
-              style="padding-bottom: {{ 1 | divided_by: display_image.aspect_ratio | times: 100 }}%;"
+            class="image-with-text__media image-with-text__media--{{ section.settings.height }} global-media-settings{% unless remove_color_classes %} gradient color-{{ section.settings.color_scheme }}{% else %} background-transparent{% endunless %}{% if section.settings.image != blank %} media{% else %} image-with-text__media--placeholder placeholder{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}"
+            {% if section.settings.height == 'adapt' and section.settings.image != blank %}
+              style="padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;"
             {% endif %}
           >
-            {%- if display_image != blank -%}
-              {%- if display_image_behavior == 'ambient' or section.settings.image_behavior == 'zoom-in' -%}
+            {%- if section.settings.image != blank -%}
+              {%- if section.settings.image_behavior == 'ambient' or section.settings.image_behavior == 'zoom-in' -%}
                 {%- assign widths = '198, 432, 642, 900, 1284, 1800' -%}
                 {%- capture sizes -%}
               (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 1.6667 }}px,
@@ -64,7 +50,7 @@
             {%- endcapture -%}
               {%- endif -%}
               {{
-                display_image
+                section.settings.image
                 | image_url: width: 1500
                 | image_tag: sizes: sizes, widths: widths, fetchpriority: fetch_priority
               }}
@@ -129,26 +115,6 @@
     "groups": ["header", "footer"]
   },
   "settings": [
-     {
-      "type": "text",
-      "id": "available_country_1",
-      "label": "Add the ISO code of country that should see banner image 1"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_1",
-      "label": "t:sections.image-with-text.settings.image.label"
-    },
-    {
-      "type": "text",
-      "id": "available_country_2",
-      "label": "Add the ISO code of country that should see banner image 2"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_2",
-      "label": "t:sections.image-with-text.settings.image.label"
-    },
     {
       "type": "image_picker",
       "id": "image",
